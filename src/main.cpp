@@ -6,27 +6,24 @@
  *       Group: TA's
  */
 
-#include "../include/UI.h"
-#include "../include/GameObjectStruct.h"
 #include <SDL2/SDL.h>
 #include <vector>
 #include "../include/board.h"
 #include "../include/main.h"
+#include "../include/Game.h"
 
 int main(int argc, char* argv[]) {
 
 	// Create a new ui object
-	UI ui(map); // <-- use map from your game objects.
+	//UI ui(map); // <-- use map from your game objects.
+
+	Game Game(map);
 
 	// Start timer for game update, call this function every 100 ms.
 	timer_id = SDL_AddTimer(100, gameUpdate, (void *)nullptr);
 
 	// Example object, this can be removed later
-	GameObjectStruct pacman;
-	pacman.x = 1;
-	pacman.y = 1;
-	pacman.type = PACMAN;
-	pacman.dir = UP;
+
 
 	/* Put game init code here */
 
@@ -56,15 +53,8 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		// Set the score
-		ui.setScore(12345); /* <-- Put your code in the setter */
-
-		// Set the amount of lives
-		ui.setLives(3); /* <-- Put your code in the setter */
-
-		// Render the scene
-		std::vector<GameObjectStruct> objects = {pacman};
-		ui.update(objects); /* <-- Put your code in the update function (e.g. game->getStructs()) */
+		// Resets Score and Lives
+		Game.Reset();
 
 		while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
 		    /* ... do work until timeout has elapsed */
