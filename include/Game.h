@@ -8,7 +8,8 @@
 #ifndef SRC_GAME_H_
 #define SRC_GAME_H_
 
-#include "../include/UI.h"
+#include "UI.h"
+#include "Movable.h"
 
 
 class Game: private UI {

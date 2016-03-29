@@ -13,18 +13,17 @@ Game::Game(std::vector<std::vector<int>> map) : UI(map) {
 }
 
 void Game::Reset(){
-	GameObjectStruct pacman;
-	pacman.x = 1;
-	pacman.y = 1;
-	pacman.type = PACMAN;
-	pacman.dir = UP;
+	std::cout << "Call for Game::Reset()" << std::endl;
+
+	Movable Pacman(1,1,PACMAN,RIGHT);
+
 
 	this->setScore(0);
 
 	this->setLives(3);
 
 	// Render the scene
-	std::vector<GameObjectStruct> objects = {pacman};
+	std::vector<GameObjectStruct> objects = {Pacman.getStruct()};
 	this->update(objects);
 }
 

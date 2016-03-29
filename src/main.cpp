@@ -26,6 +26,8 @@ int main(int argc, char* argv[]) {
 
 
 	/* Put game init code here */
+	Game.Reset();
+
 
 	bool quit = false;
 
@@ -52,9 +54,6 @@ int main(int argc, char* argv[]) {
 	            }
 			}
 		}
-
-		// Resets Score and Lives
-		Game.Reset();
 
 		while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
 		    /* ... do work until timeout has elapsed */
