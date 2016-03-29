@@ -41,12 +41,20 @@ void GameObject::setKillable(bool input){
 	this->Killable = input;
 }
 
+void GameObject::setPassable(bool input){
+	this->Passable = input;
+}
+
 bool GameObject::getLethal(){
 	return this->Lethal;
 }
 
 bool GameObject::getKillable(){
 	return this->Killable;
+}
+
+bool GameObject::getPassable(){
+	return this->Passable;
 }
 
 void GameObject::setType(Type type){

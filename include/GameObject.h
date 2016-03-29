@@ -22,6 +22,8 @@ public:
 	bool getLethal();
 	void setKillable(bool);
 	bool getKillable();
+	void setPassable(bool);
+	bool getPassable();
 
 	void setLocation(int, int);
 
@@ -32,6 +34,7 @@ private:
 	GameObjectStruct Info;
 	bool Lethal;
 	bool Killable;
+	bool Passable;
 };
 
 #endif /* SRC_GAMEOBJECT_H_ */
