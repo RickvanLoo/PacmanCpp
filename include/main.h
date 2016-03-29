@@ -15,8 +15,5 @@ SDL_TimerID timer_id;
 // Callback function of the timer.
 Uint32 gameUpdate(Uint32 interval, void *param);
 
-// Our event structure
-SDL_Event e;
-
 
 #endif /* SRC_MAIN_H_ */

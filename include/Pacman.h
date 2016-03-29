@@ -18,6 +18,11 @@ public:
 	void GoUp();
 	void GoDown();
 	void Reset();
+	void Tick();
+private:
+	int TickCount;
+	bool Moving;
+	Direction CurrentDir;
 };
 
 #endif /* INCLUDE_PACMAN_H_ */

@@ -97,11 +97,12 @@ private:
 	SDL_Renderer *renderer;
 	SDL_Texture *sheet;
 
-	/* 2d array containing the map, a 1 is a wall. */
-	std::vector<std::vector<int>> map;
 
 	/* Map containing all the game objects */
 	std::map<Type,std::map<Direction, SDL_Rect>> clips;
+protected:
+	/* 2d array containing the map, a 1 is a wall. */
+	std::vector<std::vector<int>> map;
 };
 
 #endif /* SRC_UI_H_ */
