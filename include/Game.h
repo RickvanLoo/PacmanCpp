@@ -10,6 +10,8 @@
 
 #include "UI.h"
 #include "Pacman.h"
+#include <map>
+#include <tuple>
 
 
 class Game: private UI {
@@ -21,11 +23,12 @@ public:
 private:
 	void UpdateScreen();
 	std::vector<GameObjectStruct> ObjectStructList;
-	std::vector<GameObject> Walls;
+	std::map<std::tuple<int,int>, GameObject*> Walls;
 	Pacman PlayerObject;
 	SDL_Event e;
 	void EventHandler(SDL_Event);
 	void CreateWallObjects();
+	void CollisionResolver();
 };
 
 #endif /* SRC_GAME_H_ */

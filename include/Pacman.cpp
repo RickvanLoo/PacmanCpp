@@ -6,6 +6,7 @@
  */
 
 #include "../include/Pacman.h"
+#include <iostream>
 
 Pacman::Pacman() : Movable(1,1,PACMAN,RIGHT) {
 	// TODO Auto-generated constructor stub
@@ -68,4 +69,28 @@ void Pacman::Tick(){
 		}
 	}
 
+}
+
+void Pacman::ResolveCollision(GameObject *other){
+	if (other->getPassable() == false){
+
+		//Reverse Movement
+		switch(this->CurrentDir){
+		case UP:
+			this->Move(0,1);
+			break;
+		case DOWN:
+			this->Move(0,-1);
+			break;
+		case LEFT:
+			this->Move(1,0);
+			break;
+		case RIGHT:
+			this->Move(-1,0);
+			break;
+		}
+		this->Moving = false;
+
+
+	}
 }

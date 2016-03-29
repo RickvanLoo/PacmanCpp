@@ -15,12 +15,21 @@ Movable::Movable(int x, int y, Type type, Direction dir) : GameObject(x,y,type,d
 
 void Movable::Move(int x, int y){
 	GameObjectStruct Info = this->getStruct();
+
+	//Portal
+	if (Info.x + x < 0){
+		x = x + 28;
+	}
+	if (Info.x + x > 28){
+		x = x - 29;
+	}
+
 	this->setLocation(Info.x + x, Info.y + y);
 }
 
-bool Movable::CollideWith(GameObject Object){
+bool Movable::CollideWith(GameObject *Object){
 	GameObjectStruct Self = this->getStruct();
-	GameObjectStruct Other = Object.getStruct();
+	GameObjectStruct Other = Object->getStruct();
 
 	if ((Self.x == Other.x) && (Self.y == Other.y)){
 		return true;
@@ -28,4 +37,5 @@ bool Movable::CollideWith(GameObject Object){
 		return false;
 	}
 }
+
 

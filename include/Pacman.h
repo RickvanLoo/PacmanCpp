@@ -19,6 +19,7 @@ public:
 	void GoDown();
 	void Reset();
 	void Tick();
+	void ResolveCollision(GameObject*);
 private:
 	int TickCount;
 	bool Moving;

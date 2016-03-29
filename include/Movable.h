@@ -16,7 +16,7 @@ class Movable: public GameObject {
 public:
 	Movable(int, int, Type, Direction);
 	void Move(int, int);
-	bool CollideWith(GameObject);
+	bool CollideWith(GameObject*);
 };
 
 #endif /* SRC_MOVABLE_H_ */

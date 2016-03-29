@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 
 
 	// Start timer for game update, call this function every 100 ms.
-	timer_id = SDL_AddTimer(100, gameUpdate, (void *)nullptr);
+	timer_id = SDL_AddTimer(50, gameUpdate, (void *)nullptr);
 
 	// Example object, this can be removed later
 

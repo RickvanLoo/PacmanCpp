@@ -93,6 +93,7 @@ void Game::EventHandler(SDL_Event e){
 void Game::Tick(){
 	this->PlayerObject.Tick();
 	this->UpdateScreen();
+	CollisionResolver();
 }
 
 void Game::CreateWallObjects(){
@@ -104,10 +105,27 @@ void Game::CreateWallObjects(){
 			{
 				if(map[i][j]==1)
 				{
-					//TODO: Nicer data structore, a map or something
-					this->Walls.push_back(GameObject(i,j,WALL,UP));
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					GameObject* Object = new GameObject(j,i,WALL,UP);
+					Object->setPassable(false);
+
+					this->Walls.insert(std::make_pair(Loc, Object));
+
 				}
 			}
 		}
+}
+
+void Game::CollisionResolver(){
+	GameObjectStruct Cur = this->PlayerObject.getStruct();
+	std::tuple<int,int> Loc = std::make_tuple(Cur.x, Cur.y);
+
+	if(this->Walls.count(Loc) > 0){
+		if(this->PlayerObject.CollideWith(this->Walls[Loc])){
+
+			this->PlayerObject.ResolveCollision(this->Walls[Loc]);
+
+		}
+	}
 }
 
