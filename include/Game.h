@@ -26,7 +26,7 @@ private:
 	std::map<std::tuple<int,int>, GameObject*> GameObjects;
 	Pacman PlayerObject;
 	SDL_Event e;
-	void EventHandler(SDL_Event);
+	void SDLEventHandler(SDL_Event);
 	void CreateObjects();
 };
 

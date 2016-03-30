@@ -56,7 +56,7 @@ void Game::Start(){
 		            break;
 				}
 
-				EventHandler(e);
+				SDLEventHandler(e);
 			}
 
 			while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
@@ -71,7 +71,7 @@ void Game::UpdateScreen(){
 	this->update(this->ObjectStructList);
 }
 
-void Game::EventHandler(SDL_Event e){
+void Game::SDLEventHandler(SDL_Event e){
 
 	switch(e.key.keysym.sym){
 	case SDLK_UP:

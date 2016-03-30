@@ -10,6 +10,8 @@
 
 #include "GameObjectStruct.h"
 
+class Game;
+
 class GameObject {
 public:
 	GameObject(int, int, Type, Direction);
@@ -42,6 +44,9 @@ private:
 	bool Passable;
 	bool Edible;
 	int Score;
+
+	Game* GamePtr;
+
 };
 
 #endif /* SRC_GAMEOBJECT_H_ */

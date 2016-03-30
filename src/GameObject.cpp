@@ -18,6 +18,14 @@ GameObject::GameObject(int x, int y, Type type, Direction dir) {
 	structure.dir = dir;
 
 	setStruct(structure);
+
+	//Set Flags as if empty space
+	setLethal(false);
+	setKillable(false);
+	setPassable(true);
+	setEdible(false);
+	setScore(0);
+
 }
 
 void GameObject::setStruct(GameObjectStruct gos){
@@ -80,4 +88,5 @@ void GameObject::setScore(int input){
 int GameObject::getScore(){
 	return this->Score;
 }
+
 

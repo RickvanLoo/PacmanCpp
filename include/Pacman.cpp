@@ -76,9 +76,17 @@ void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 }
 
 void Pacman::ResolveCollision(GameObject *other){
+	//Wall
 	if (other->getPassable() == false){
 		this->Moving = false;
 	}
+
+	//Dot
+	if (other->getEdible() == true ){
+		//
+	}
+
+
 }
 
 void Pacman::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
