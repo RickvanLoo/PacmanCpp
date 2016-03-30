@@ -13,14 +13,15 @@ Game::Game(std::vector<std::vector<int>> map) : UI(map) {
 }
 
 void Game::Reset(){
-	std::cout << "Call for Game::Reset()" << std::endl;
-
 	Pacman Pacman;
 
 	this->PlayerObject = Pacman;
-	this->CreateWallObjects();
 
-	std::cout << "Counting WALLS: " << this->Walls.size() << std::endl;
+	this->ObjectStructList = {Pacman.getStruct()};
+
+	this->CreateObjects();
+
+	std::cout << "Counting GameObjects: " << this->GameObjects.size() << std::endl;
 
 
 	this->setScore(0);
@@ -29,8 +30,9 @@ void Game::Reset(){
 
 
 	// Render the scene
-	this->ObjectStructList = {Pacman.getStruct()};
 	this->update(this->ObjectStructList);
+
+	std::cout << "Counting StructList: " << this->ObjectStructList.size() << std::endl;
 }
 
 void Game::Start(){
@@ -64,7 +66,8 @@ void Game::Start(){
 }
 
 void Game::UpdateScreen(){
-	this->ObjectStructList = {this->PlayerObject.getStruct()};
+
+	this->ObjectStructList[0] = this->PlayerObject.getStruct();
 	this->update(this->ObjectStructList);
 }
 
@@ -72,60 +75,63 @@ void Game::EventHandler(SDL_Event e){
 
 	switch(e.key.keysym.sym){
 	case SDLK_UP:
-		std::cout << "UP!" << std::endl;
 		this->PlayerObject.GoUp();
 		break;
 	case SDLK_DOWN:
-		std::cout << "DOWN!" << std::endl;
 		this->PlayerObject.GoDown();
 		break;
 	case SDLK_LEFT:
-		std::cout << "LEFT!" << std::endl;
 		this->PlayerObject.GoLeft();
 		break;
 	case SDLK_RIGHT:
-		std::cout << "RIGHT!" << std::endl;
 		this->PlayerObject.GoRight();
 		break;
 	}
 }
 
 void Game::Tick(){
-	this->PlayerObject.Tick();
+	this->PlayerObject.Tick(this->GameObjects);
 	this->UpdateScreen();
-	CollisionResolver();
 }
 
-void Game::CreateWallObjects(){
-	this->Walls.clear();
+void Game::CreateObjects(){
+	this->GameObjects.clear();
 
 	for(int i=0; i<map.size();i++)
 		{
 			for(int j=0; j<map[i].size();j++)
 			{
+				//WALL
 				if(map[i][j]==1)
 				{
 					std::tuple<int,int> Loc = std::make_tuple(j,i);
 					GameObject* Object = new GameObject(j,i,WALL,UP);
 					Object->setPassable(false);
+					Object->setLethal(false);
+					Object->setKillable(false);
+					Object->setEdible(false);
 
-					this->Walls.insert(std::make_pair(Loc, Object));
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+
+				}
+
+				//DOT
+				if(map[i][j]==0)
+				{
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					GameObject* Object = new GameObject(j,i,DOT,UP);
+					Object->setPassable(true);
+					Object->setLethal(false);
+					Object->setKillable(false);
+					Object->setEdible(true);
+					Object->setScore(50);
+
+					this->ObjectStructList.push_back(Object->getStruct());
+
+					this->GameObjects.insert(std::make_pair(Loc, Object));
 
 				}
 			}
 		}
-}
-
-void Game::CollisionResolver(){
-	GameObjectStruct Cur = this->PlayerObject.getStruct();
-	std::tuple<int,int> Loc = std::make_tuple(Cur.x, Cur.y);
-
-	if(this->Walls.count(Loc) > 0){
-		if(this->PlayerObject.CollideWith(this->Walls[Loc])){
-
-			this->PlayerObject.ResolveCollision(this->Walls[Loc]);
-
-		}
-	}
 }
 

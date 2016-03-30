@@ -27,15 +27,5 @@ void Movable::Move(int x, int y){
 	this->setLocation(Info.x + x, Info.y + y);
 }
 
-bool Movable::CollideWith(GameObject *Object){
-	GameObjectStruct Self = this->getStruct();
-	GameObjectStruct Other = Object->getStruct();
-
-	if ((Self.x == Other.x) && (Self.y == Other.y)){
-		return true;
-	}else{
-		return false;
-	}
-}
 
 

@@ -45,6 +45,10 @@ void GameObject::setPassable(bool input){
 	this->Passable = input;
 }
 
+void GameObject::setEdible(bool input){
+	this->Edible = input;
+}
+
 bool GameObject::getLethal(){
 	return this->Lethal;
 }
@@ -57,11 +61,23 @@ bool GameObject::getPassable(){
 	return this->Passable;
 }
 
+bool GameObject::getEdible(){
+	return this->Edible;
+}
+
 void GameObject::setType(Type type){
 	this->Info.type = type;
 }
 
 void GameObject::setDirection(Direction dir){
 	this->Info.dir = dir;
+}
+
+void GameObject::setScore(int input){
+	this->Score = input;
+}
+
+int GameObject::getScore(){
+	return this->Score;
 }
 

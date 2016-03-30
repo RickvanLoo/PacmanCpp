@@ -9,6 +9,8 @@
 #define INCLUDE_PACMAN_H_
 
 #include "Movable.h"
+#include <map>
+#include <tuple>
 
 class Pacman: public Movable {
 public:
@@ -18,9 +20,10 @@ public:
 	void GoUp();
 	void GoDown();
 	void Reset();
-	void Tick();
-	void ResolveCollision(GameObject*);
+	void Tick(std::map<std::tuple<int,int>, GameObject*>);
 private:
+	void DetectCollision(std::map<std::tuple<int,int>, GameObject*>);
+	void ResolveCollision(GameObject*);
 	int TickCount;
 	bool Moving;
 	Direction CurrentDir;

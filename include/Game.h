@@ -23,12 +23,11 @@ public:
 private:
 	void UpdateScreen();
 	std::vector<GameObjectStruct> ObjectStructList;
-	std::map<std::tuple<int,int>, GameObject*> Walls;
+	std::map<std::tuple<int,int>, GameObject*> GameObjects;
 	Pacman PlayerObject;
 	SDL_Event e;
 	void EventHandler(SDL_Event);
-	void CreateWallObjects();
-	void CollisionResolver();
+	void CreateObjects();
 };
 
 #endif /* SRC_GAME_H_ */

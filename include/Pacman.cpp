@@ -40,7 +40,11 @@ void Pacman::GoRight(){
 	this->Moving = true;
 }
 
-void Pacman::Tick(){
+void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
+	//Check for Collisions
+	this->DetectCollision(GameObjects);
+
+
 	//Not Moving
 	if(Moving == false){
 		return;
@@ -73,24 +77,35 @@ void Pacman::Tick(){
 
 void Pacman::ResolveCollision(GameObject *other){
 	if (other->getPassable() == false){
-
-		//Reverse Movement
-		switch(this->CurrentDir){
-		case UP:
-			this->Move(0,1);
-			break;
-		case DOWN:
-			this->Move(0,-1);
-			break;
-		case LEFT:
-			this->Move(1,0);
-			break;
-		case RIGHT:
-			this->Move(-1,0);
-			break;
-		}
 		this->Moving = false;
+	}
+}
 
+void Pacman::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+	GameObjectStruct Self = this->getStruct();
+
+	std::tuple<int,int> CheckLocation;
+
+	//Check Location relative to Current Direction
+	switch(this->CurrentDir){
+	case UP:
+		CheckLocation = std::make_tuple(Self.x, Self.y - 1);
+		break;
+	case DOWN:
+		CheckLocation = std::make_tuple(Self.x, Self.y + 1);
+		break;
+	case LEFT:
+		CheckLocation = std::make_tuple(Self.x - 1, Self.y);
+		break;
+	case RIGHT:
+		CheckLocation = std::make_tuple(Self.x + 1, Self.y);
+		break;
+	}
+
+	if(ObjectMap.count(CheckLocation) > 0){
+		//Collision Detected
+		this->ResolveCollision(ObjectMap[CheckLocation]);
 
 	}
 }
+

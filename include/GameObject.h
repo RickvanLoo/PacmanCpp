@@ -24,6 +24,11 @@ public:
 	bool getKillable();
 	void setPassable(bool);
 	bool getPassable();
+	void setEdible(bool);
+	bool getEdible();
+
+	void setScore(int);
+	int getScore();
 
 	void setLocation(int, int);
 
@@ -35,6 +40,8 @@ private:
 	bool Lethal;
 	bool Killable;
 	bool Passable;
+	bool Edible;
+	int Score;
 };
 
 #endif /* SRC_GAMEOBJECT_H_ */
