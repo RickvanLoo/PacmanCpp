@@ -57,6 +57,7 @@ void Game::Start(){
 		            break;
 				}
 
+
 				SDLEventHandler(e);
 			}
 

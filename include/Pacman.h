@@ -15,18 +15,11 @@
 class Pacman: public Movable {
 public:
 	Pacman();
-	void GoLeft();
-	void GoRight();
-	void GoUp();
-	void GoDown();
 	void Reset();
 	void Tick(std::map<std::tuple<int,int>, GameObject*>);
 private:
-	void DetectCollision(std::map<std::tuple<int,int>, GameObject*>);
-	void ResolveCollision(GameObject*);
 	int TickCount;
-	bool Moving;
-	Direction CurrentDir;
+
 };
 
 #endif /* INCLUDE_PACMAN_H_ */

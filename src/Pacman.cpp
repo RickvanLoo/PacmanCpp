@@ -14,31 +14,7 @@ Pacman::Pacman() : Movable(1,1,PACMAN,RIGHT) {
 	this->setLethal(false);
 	this->setKillable(true);
 	this->TickCount = 0;
-	this->Moving = false;
-}
-
-void Pacman::GoUp(){
-	this->setDirection(UP);
-	this->CurrentDir = UP;
-	this->Moving = true;
-}
-
-void Pacman::GoDown(){
-	this->setDirection(DOWN);
-	this->CurrentDir = DOWN;
-	this->Moving = true;
-}
-
-void Pacman::GoLeft(){
-	this->setDirection(LEFT);
-	this->CurrentDir = LEFT;
-	this->Moving = true;
-}
-
-void Pacman::GoRight(){
-	this->setDirection(RIGHT);
-	this->CurrentDir = RIGHT;
-	this->Moving = true;
+	this->setMoving(false);
 }
 
 void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
@@ -47,14 +23,14 @@ void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 
 
 	//Not Moving
-	if(Moving == false){
+	if(this->getMoving() == false){
 		return;
 	}
 
 	this->TickCount++;
 
 	if (TickCount > 2){
-		switch(this->CurrentDir){
+		switch(this->getDir()){
 		case UP:
 			this->Move(0,-1);
 			this->TickCount = 0;
@@ -76,46 +52,5 @@ void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 
 }
 
-void Pacman::ResolveCollision(GameObject *other){
-	//Wall
-	if (other->getPassable() == false){
-		this->Moving = false;
-	}
 
-	//Dot
-	if (other->getEdible() == true ){
-		this->getPtr()->IncScore(other->getScore());
-		this->getPtr()->RemoveObject(other);
-	}
-
-
-}
-
-void Pacman::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
-	GameObjectStruct Self = this->getStruct();
-
-	std::tuple<int,int> CheckLocation;
-
-	//Check Location relative to Current Direction
-	switch(this->CurrentDir){
-	case UP:
-		CheckLocation = std::make_tuple(Self.x, Self.y - 1);
-		break;
-	case DOWN:
-		CheckLocation = std::make_tuple(Self.x, Self.y + 1);
-		break;
-	case LEFT:
-		CheckLocation = std::make_tuple(Self.x - 1, Self.y);
-		break;
-	case RIGHT:
-		CheckLocation = std::make_tuple(Self.x + 1, Self.y);
-		break;
-	}
-
-	if(ObjectMap.count(CheckLocation) > 0){
-		//Collision Detected
-		this->ResolveCollision(ObjectMap[CheckLocation]);
-
-	}
-}
 
