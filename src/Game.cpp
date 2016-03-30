@@ -132,6 +132,65 @@ void Game::CreateObjects(){
 					this->GameObjects.insert(std::make_pair(Loc, Object));
 
 				}
+
+				//BLINKY
+				if(map[i][j]==2){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Movable* Object = new Movable(j,i,BLINKY,UP);
+					Object->setPassable(false);
+					Object->setLethal(true);
+					Object->setKillable(false);
+					Object->setEdible(false);
+					Object->setScore(100);
+
+					this->ObjectStructList.push_back(Object->getStruct());
+
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+				//PINKY
+				if(map[i][j]==3){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Movable* Object = new Movable(j,i,PINKY,UP);
+					Object->setPassable(false);
+					Object->setLethal(true);
+					Object->setKillable(false);
+					Object->setEdible(false);
+					Object->setScore(100);
+
+					this->ObjectStructList.push_back(Object->getStruct());
+
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+				//INKY
+				if(map[i][j]==4){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Movable* Object = new Movable(j,i,INKY,UP);
+					Object->setPassable(false);
+					Object->setLethal(true);
+					Object->setKillable(false);
+					Object->setEdible(false);
+					Object->setScore(100);
+
+					this->ObjectStructList.push_back(Object->getStruct());
+
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+				//CLYDE
+				if(map[i][j]==5){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Movable* Object = new Movable(j,i,CLYDE,UP);
+					Object->setPassable(false);
+					Object->setLethal(true);
+					Object->setKillable(false);
+					Object->setEdible(false);
+					Object->setScore(100);
+
+					this->ObjectStructList.push_back(Object->getStruct());
+
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+
+
 			}
 		}
 }
