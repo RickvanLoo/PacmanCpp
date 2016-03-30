@@ -7,6 +7,7 @@
  */
 
 #include "../include/GameObject.h"
+#include "../include/Game.h"
 
 
 GameObject::GameObject(int x, int y, Type type, Direction dir) {
@@ -87,6 +88,14 @@ void GameObject::setScore(int input){
 
 int GameObject::getScore(){
 	return this->Score;
+}
+
+void GameObject::setPtr(Game *ptr){
+	this->GamePtr = ptr;
+}
+
+Game* GameObject::getPtr(){
+	return this->GamePtr;
 }
 
 

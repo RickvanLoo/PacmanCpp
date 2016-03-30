@@ -33,12 +33,14 @@ public:
 	 * @param score score
 	 */
 	void setScore(int score);
+	int getScore();
 
 	/**
 	 * Setter for the lives.
 	 * @param score lives
 	 */
 	void setLives(int lives);
+	int getLives();
 
 
 	/**

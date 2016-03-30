@@ -279,5 +279,13 @@ SDL_Texture* UI::loadTexture(const std::string &file, SDL_Renderer *ren)
 	return texture;
 }
 
+int UI::getLives(){
+	return this->lives;
+}
+
+int UI::getScore(){
+	return this->score;
+}
+
 
 

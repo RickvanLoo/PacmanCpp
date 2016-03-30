@@ -6,6 +6,7 @@
  */
 
 #include "../include/Pacman.h"
+#include "../include/Game.h"
 #include <iostream>
 
 Pacman::Pacman() : Movable(1,1,PACMAN,RIGHT) {
@@ -83,7 +84,8 @@ void Pacman::ResolveCollision(GameObject *other){
 
 	//Dot
 	if (other->getEdible() == true ){
-		//
+		this->getPtr()->IncScore(other->getScore());
+		this->getPtr()->RemoveObject(other);
 	}
 
 

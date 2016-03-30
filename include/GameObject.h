@@ -37,6 +37,9 @@ public:
 	void setType(Type);
 	void setDirection(Direction);
 
+	void setPtr(Game*);
+	Game* getPtr();
+
 private:
 	GameObjectStruct Info;
 	bool Lethal;

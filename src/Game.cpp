@@ -16,6 +16,7 @@ void Game::Reset(){
 	Pacman Pacman;
 
 	this->PlayerObject = Pacman;
+	this->PlayerObject.setPtr(this);
 
 	this->ObjectStructList = {Pacman.getStruct()};
 
@@ -66,7 +67,6 @@ void Game::Start(){
 }
 
 void Game::UpdateScreen(){
-
 	this->ObjectStructList[0] = this->PlayerObject.getStruct();
 	this->update(this->ObjectStructList);
 }
@@ -124,7 +124,7 @@ void Game::CreateObjects(){
 					Object->setLethal(false);
 					Object->setKillable(false);
 					Object->setEdible(true);
-					Object->setScore(50);
+					Object->setScore(5);
 
 					this->ObjectStructList.push_back(Object->getStruct());
 
@@ -134,4 +134,33 @@ void Game::CreateObjects(){
 			}
 		}
 }
+
+void Game::RemoveObject(GameObject *obj){
+
+	GameObjectStruct CurStruct = obj->getStruct();
+
+	for(int i=0; i<this->ObjectStructList.size(); i++){
+		GameObjectStruct test = this->ObjectStructList.at(i);
+		if ((test.x == CurStruct.x)&&(test.y == CurStruct.y)){
+
+
+			this->ObjectStructList.erase(this->ObjectStructList.begin()+i);
+
+			std::tuple<int,int> Loc = std::make_tuple(test.x,test.y);
+			this->GameObjects.erase(Loc);
+
+
+
+
+		}
+
+	}
+
+}
+
+void Game::IncScore(int input){
+	this->setScore(this->getScore()+input);
+}
+
+
 

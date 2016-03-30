@@ -12,6 +12,7 @@
 #include "Pacman.h"
 #include <map>
 #include <tuple>
+#include <algorithm>
 
 
 class Game: private UI {
@@ -20,6 +21,8 @@ public:
 	void Reset();
 	void Start();
 	void Tick();
+	void RemoveObject(GameObject*);
+	void IncScore(int);
 private:
 	void UpdateScreen();
 	std::vector<GameObjectStruct> ObjectStructList;
