@@ -9,7 +9,7 @@
 #include "../include/Game.h"
 #include <iostream>
 
-Pacman::Pacman() : Movable(1,1,PACMAN,RIGHT) {
+Pacman::Pacman() : Movable(6,5,PACMAN,RIGHT) {
 	// TODO Auto-generated constructor stub
 	this->setLethal(false);
 	this->setKillable(true);
@@ -19,9 +19,8 @@ Pacman::Pacman() : Movable(1,1,PACMAN,RIGHT) {
 
 void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 	//Check for Collisions
-	this->DetectGhostCollision(GameObjects);
 	this->DetectWallCollision(GameObjects);
-	this->DetectDotCollision(GameObjects);
+	this->DetectCollision(GameObjects);
 
 	//Not Moving
 	if(this->getMoving() == false){
@@ -54,8 +53,12 @@ void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 }
 
 void Pacman::Reset(){
-	this->setLocation(1,1);
+	this->setLocation(6,5);
 	this->getPtr()->DecLives(1);
+
+	for(Ghost* ghost : this->getPtr()->getGhosts()){
+		ghost->Reset();
+	}
 }
 
 
@@ -88,55 +91,35 @@ void Pacman::DetectWallCollision(std::map<std::tuple<int,int>, GameObject*> Obje
 	}
 }
 
-void Pacman::DetectDotCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+void Pacman::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
 
 	GameObjectStruct Self = this->getStruct();
 
-	std::tuple<int,int> CheckLocation;
+	for(auto const Obj : ObjectMap) {
+		int ObjX = Obj.second->getStruct().x;
+		int ObjY = Obj.second->getStruct().y;
 
-
-	CheckLocation = std::make_tuple(Self.x, Self.y);
-
-
-	if(ObjectMap.count(CheckLocation) > 0){
-		//Collision Detected
-
-		//Dot
-		if (ObjectMap[CheckLocation]->getEdible() == true ){
-			std::cout << "Got Dot Collision" << std::endl;
-			this->getPtr()->IncScore(ObjectMap[CheckLocation]->getScore());
-			this->getPtr()->RemoveObject(ObjectMap[CheckLocation]);
+		if((Self.x == ObjX) and (Self.y == ObjY) ){
+			this->ResolveCollision(Obj.second);
 		}
 
 	}
 }
 
+void Pacman::ResolveCollision(GameObject *Obj){
 
-void Pacman::DetectGhostCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+	//DOT
+	if (Obj->getEdible()){
+		this->getPtr()->IncScore(Obj->getScore());
+		this->getPtr()->RemoveObject(Obj);
+	}
 
-
-	GameObjectStruct Self = this->getStruct();
-
-	std::tuple<int,int> CheckLocation;
-
-
-	CheckLocation = std::make_tuple(Self.x, Self.y);
-
-
-	if(ObjectMap.count(CheckLocation) > 0){
-		//Collision Detected
-		std::cout << "Got Some Collision" << std::endl;
-
-		//Enemy
-		if (ObjectMap[CheckLocation]->getLethal() == true ){
-			this->Reset();
-		}
-
+	//ENEMY
+	if (Obj->getLethal()){
+		this->Reset();
 	}
 
 }
-
-
 
 
 

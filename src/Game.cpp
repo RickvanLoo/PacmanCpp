@@ -111,6 +111,11 @@ void Game::SDLEventHandler(SDL_Event e){
 }
 
 void Game::Tick(){
+	//Check For GameOver
+	if(this->getLives() == 0){
+		this->Reset();
+	}
+
 	this->PlayerObject.Tick(this->GameObjects);
 	for (Ghost* Ghost : this->Ghosts){
 		Ghost->Tick(this->GameObjects);
@@ -221,6 +226,10 @@ void Game::IncScore(int input){
 
 void Game::DecLives(int input){
 	this->setLives(this->getLives()-input);
+}
+
+std::vector<Ghost*> Game::getGhosts(){
+	return this->Ghosts;
 }
 
 

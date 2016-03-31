@@ -26,6 +26,7 @@ public:
 	void RemoveObject(GameObject*);
 	void IncScore(int);
 	void DecLives(int);
+	std::vector<Ghost*> getGhosts();
 private:
 	void UpdateScreen();
 	std::vector<GameObjectStruct> ObjectStructList;

@@ -16,6 +16,8 @@ Ghost::Ghost(int x, int y, Type type, Direction dir) : Movable(x,y,type,dir) {
 	this->setKillable(false);
 	this->setEdible(false);
 	this->setScore(100);
+	this->DefaultX = x;
+	this->DefaultY = y;
 }
 
 void Ghost::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
@@ -52,7 +54,7 @@ void Ghost::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 	if (this->getMoving() == false){
 		this->RandomDirection();
 	}else{
-		int switchMovementParameter = rand() % 7;
+		int switchMovementParameter = rand() % 10;
 		if (switchMovementParameter == 0){
 			this->RandomDirection();
 		}
@@ -112,6 +114,10 @@ void Ghost::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap
 		this->ResolveCollision(ObjectMap[CheckLocation]);
 
 	}
+}
+
+void Ghost::Reset(){
+	this->setLocation(DefaultX,DefaultY);
 }
 
 

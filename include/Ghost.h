@@ -15,11 +15,13 @@ class Ghost: public Movable {
 public:
 	Ghost(int,int,Type,Direction);
 	void Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects);
+	void Reset();
 private:
 	void RandomDirection();
 	int TickCount;
 	void DetectCollision(std::map<std::tuple<int,int>, GameObject*>);
 	void ResolveCollision(GameObject*);
+	int DefaultX, DefaultY;
 
 };
 
