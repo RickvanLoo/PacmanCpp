@@ -19,8 +19,9 @@ Pacman::Pacman() : Movable(1,1,PACMAN,RIGHT) {
 
 void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 	//Check for Collisions
-	this->DetectCollision(GameObjects);
-
+	this->DetectGhostCollision(GameObjects);
+	this->DetectWallCollision(GameObjects);
+	this->DetectDotCollision(GameObjects);
 
 	//Not Moving
 	if(this->getMoving() == false){
@@ -51,6 +52,91 @@ void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 	}
 
 }
+
+void Pacman::Reset(){
+	this->setLocation(1,1);
+	this->getPtr()->DecLives(1);
+}
+
+
+void Pacman::DetectWallCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+	GameObjectStruct Self = this->getStruct();
+
+	std::tuple<int,int> CheckLocation;
+
+	//Check Location relative to Current Direction
+	switch(this->getDir()){
+	case UP:
+		CheckLocation = std::make_tuple(Self.x, Self.y - 1);
+		break;
+	case DOWN:
+		CheckLocation = std::make_tuple(Self.x, Self.y + 1);
+		break;
+	case LEFT:
+		CheckLocation = std::make_tuple(Self.x - 1, Self.y);
+		break;
+	case RIGHT:
+		CheckLocation = std::make_tuple(Self.x + 1, Self.y);
+		break;
+	}
+
+	if(ObjectMap.count(CheckLocation) > 0){
+		//Collision Detected For Wall
+		if (ObjectMap[CheckLocation]->getPassable() == false){
+			this->setMoving(false);
+		}
+	}
+}
+
+void Pacman::DetectDotCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+
+	GameObjectStruct Self = this->getStruct();
+
+	std::tuple<int,int> CheckLocation;
+
+
+	CheckLocation = std::make_tuple(Self.x, Self.y);
+
+
+	if(ObjectMap.count(CheckLocation) > 0){
+		//Collision Detected
+
+		//Dot
+		if (ObjectMap[CheckLocation]->getEdible() == true ){
+			std::cout << "Got Dot Collision" << std::endl;
+			this->getPtr()->IncScore(ObjectMap[CheckLocation]->getScore());
+			this->getPtr()->RemoveObject(ObjectMap[CheckLocation]);
+		}
+
+	}
+}
+
+
+void Pacman::DetectGhostCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+
+
+	GameObjectStruct Self = this->getStruct();
+
+	std::tuple<int,int> CheckLocation;
+
+
+	CheckLocation = std::make_tuple(Self.x, Self.y);
+
+
+	if(ObjectMap.count(CheckLocation) > 0){
+		//Collision Detected
+		std::cout << "Got Some Collision" << std::endl;
+
+		//Enemy
+		if (ObjectMap[CheckLocation]->getLethal() == true ){
+			this->Reset();
+		}
+
+	}
+
+}
+
+
 
 
 

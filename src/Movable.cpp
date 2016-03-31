@@ -54,51 +54,6 @@ void Movable::GoRight(){
 }
 
 
-
-
-void Movable::ResolveCollision(GameObject *other){
-	//Wall
-	if (other->getPassable() == false){
-		this->Moving = false;
-	}
-
-	//Dot
-	if (other->getEdible() == true ){
-		this->getPtr()->IncScore(other->getScore());
-		this->getPtr()->RemoveObject(other);
-	}
-
-
-}
-
-void Movable::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
-	GameObjectStruct Self = this->getStruct();
-
-	std::tuple<int,int> CheckLocation;
-
-	//Check Location relative to Current Direction
-	switch(this->CurrentDir){
-	case UP:
-		CheckLocation = std::make_tuple(Self.x, Self.y - 1);
-		break;
-	case DOWN:
-		CheckLocation = std::make_tuple(Self.x, Self.y + 1);
-		break;
-	case LEFT:
-		CheckLocation = std::make_tuple(Self.x - 1, Self.y);
-		break;
-	case RIGHT:
-		CheckLocation = std::make_tuple(Self.x + 1, Self.y);
-		break;
-	}
-
-	if(ObjectMap.count(CheckLocation) > 0){
-		//Collision Detected
-		this->ResolveCollision(ObjectMap[CheckLocation]);
-
-	}
-}
-
 void Movable::setMoving(bool input){
 	this->Moving = input;
 }

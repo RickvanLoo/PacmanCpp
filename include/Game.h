@@ -10,8 +10,10 @@
 
 #include "UI.h"
 #include "Pacman.h"
+#include "Ghost.h"
 #include <map>
 #include <tuple>
+#include <iterator>
 #include <algorithm>
 
 
@@ -23,11 +25,13 @@ public:
 	void Tick();
 	void RemoveObject(GameObject*);
 	void IncScore(int);
+	void DecLives(int);
 private:
 	void UpdateScreen();
 	std::vector<GameObjectStruct> ObjectStructList;
 	std::map<std::tuple<int,int>, GameObject*> GameObjects;
 	Pacman PlayerObject;
+	std::vector<Ghost*> Ghosts;
 	SDL_Event e;
 	void SDLEventHandler(SDL_Event);
 	void CreateObjects();

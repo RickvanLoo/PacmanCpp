@@ -18,6 +18,9 @@ public:
 	void Reset();
 	void Tick(std::map<std::tuple<int,int>, GameObject*>);
 private:
+	void DetectDotCollision(std::map<std::tuple<int,int>, GameObject*>);
+	void DetectWallCollision(std::map<std::tuple<int,int>, GameObject*>);
+	void DetectGhostCollision(std::map<std::tuple<int,int>, GameObject*>);
 	int TickCount;
 
 };

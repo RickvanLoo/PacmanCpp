@@ -25,9 +25,6 @@ public:
 	bool getMoving();
 	void setDir(Direction);
 	Direction getDir();
-protected:
-	void DetectCollision(std::map<std::tuple<int,int>, GameObject*>);
-	void ResolveCollision(GameObject*);
 private:
 	bool Moving;
 	Direction CurrentDir;

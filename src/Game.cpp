@@ -18,11 +18,10 @@ void Game::Reset(){
 	this->PlayerObject = Pacman;
 	this->PlayerObject.setPtr(this);
 
-	this->ObjectStructList = {Pacman.getStruct()};
-
 	this->CreateObjects();
 
 	std::cout << "Counting GameObjects: " << this->GameObjects.size() << std::endl;
+
 
 
 	this->setScore(0);
@@ -31,6 +30,12 @@ void Game::Reset(){
 
 
 	// Render the scene
+	this->ObjectStructList.clear();
+
+	for(auto ent1 : this->GameObjects) {
+		this->ObjectStructList.push_back(ent1.second->getStruct());
+	}
+
 	this->update(this->ObjectStructList);
 
 	std::cout << "Counting StructList: " << this->ObjectStructList.size() << std::endl;
@@ -68,7 +73,22 @@ void Game::Start(){
 }
 
 void Game::UpdateScreen(){
-	this->ObjectStructList[0] = this->PlayerObject.getStruct();
+	this->ObjectStructList.clear();
+
+	// Favor Ghosts for rendering.
+	for(auto const ent1 : this->GameObjects) {
+		if(ent1.second->getLethal()){
+			this->ObjectStructList.push_back(ent1.second->getStruct());
+
+		}else{
+			this->ObjectStructList.insert(this->ObjectStructList.begin(), ent1.second->getStruct());
+
+		}
+
+	}
+
+	this->ObjectStructList.push_back(this->PlayerObject.getStruct());
+
 	this->update(this->ObjectStructList);
 }
 
@@ -92,6 +112,9 @@ void Game::SDLEventHandler(SDL_Event e){
 
 void Game::Tick(){
 	this->PlayerObject.Tick(this->GameObjects);
+	for (Ghost* Ghost : this->Ghosts){
+		Ghost->Tick(this->GameObjects);
+	}
 	this->UpdateScreen();
 }
 
@@ -102,6 +125,42 @@ void Game::CreateObjects(){
 		{
 			for(int j=0; j<map[i].size();j++)
 			{
+				//BLINKY
+				if(map[i][j]==2){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Ghost* Object = new Ghost(j,i,BLINKY,RIGHT);
+
+					this->Ghosts.push_back(Object);
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+				//PINKY
+				if(map[i][j]==3){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Ghost* Object = new Ghost(j,i,PINKY,UP);
+
+
+					this->Ghosts.push_back(Object);
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+				//INKY
+				if(map[i][j]==4){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Ghost* Object = new Ghost(j,i,INKY,UP);
+
+
+					this->Ghosts.push_back(Object);
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+				//CLYDE
+				if(map[i][j]==5){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					Ghost* Object = new Ghost(j,i,CLYDE,LEFT);
+
+
+					this->Ghosts.push_back(Object);
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+				}
+
 				//WALL
 				if(map[i][j]==1)
 				{
@@ -127,67 +186,8 @@ void Game::CreateObjects(){
 					Object->setEdible(true);
 					Object->setScore(5);
 
-					this->ObjectStructList.push_back(Object->getStruct());
-
 					this->GameObjects.insert(std::make_pair(Loc, Object));
 
-				}
-
-				//BLINKY
-				if(map[i][j]==2){
-					std::tuple<int,int> Loc = std::make_tuple(j,i);
-					Movable* Object = new Movable(j,i,BLINKY,UP);
-					Object->setPassable(false);
-					Object->setLethal(true);
-					Object->setKillable(false);
-					Object->setEdible(false);
-					Object->setScore(100);
-
-					this->ObjectStructList.push_back(Object->getStruct());
-
-					this->GameObjects.insert(std::make_pair(Loc, Object));
-				}
-				//PINKY
-				if(map[i][j]==3){
-					std::tuple<int,int> Loc = std::make_tuple(j,i);
-					Movable* Object = new Movable(j,i,PINKY,UP);
-					Object->setPassable(false);
-					Object->setLethal(true);
-					Object->setKillable(false);
-					Object->setEdible(false);
-					Object->setScore(100);
-
-					this->ObjectStructList.push_back(Object->getStruct());
-
-					this->GameObjects.insert(std::make_pair(Loc, Object));
-				}
-				//INKY
-				if(map[i][j]==4){
-					std::tuple<int,int> Loc = std::make_tuple(j,i);
-					Movable* Object = new Movable(j,i,INKY,UP);
-					Object->setPassable(false);
-					Object->setLethal(true);
-					Object->setKillable(false);
-					Object->setEdible(false);
-					Object->setScore(100);
-
-					this->ObjectStructList.push_back(Object->getStruct());
-
-					this->GameObjects.insert(std::make_pair(Loc, Object));
-				}
-				//CLYDE
-				if(map[i][j]==5){
-					std::tuple<int,int> Loc = std::make_tuple(j,i);
-					Movable* Object = new Movable(j,i,CLYDE,UP);
-					Object->setPassable(false);
-					Object->setLethal(true);
-					Object->setKillable(false);
-					Object->setEdible(false);
-					Object->setScore(100);
-
-					this->ObjectStructList.push_back(Object->getStruct());
-
-					this->GameObjects.insert(std::make_pair(Loc, Object));
 				}
 
 
@@ -203,13 +203,10 @@ void Game::RemoveObject(GameObject *obj){
 		GameObjectStruct test = this->ObjectStructList.at(i);
 		if ((test.x == CurStruct.x)&&(test.y == CurStruct.y)){
 
-
 			this->ObjectStructList.erase(this->ObjectStructList.begin()+i);
 
 			std::tuple<int,int> Loc = std::make_tuple(test.x,test.y);
 			this->GameObjects.erase(Loc);
-
-
 
 
 		}
@@ -220,6 +217,10 @@ void Game::RemoveObject(GameObject *obj){
 
 void Game::IncScore(int input){
 	this->setScore(this->getScore()+input);
+}
+
+void Game::DecLives(int input){
+	this->setLives(this->getLives()-input);
 }
 
 

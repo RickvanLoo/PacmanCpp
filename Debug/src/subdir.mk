@@ -6,6 +6,7 @@
 CPP_SRCS += \
 ../src/Game.cpp \
 ../src/GameObject.cpp \
+../src/Ghost.cpp \
 ../src/Movable.cpp \
 ../src/Pacman.cpp \
 ../src/UI.cpp \
@@ -14,6 +15,7 @@ CPP_SRCS += \
 OBJS += \
 ./src/Game.o \
 ./src/GameObject.o \
+./src/Ghost.o \
 ./src/Movable.o \
 ./src/Pacman.o \
 ./src/UI.o \
@@ -22,6 +24,7 @@ OBJS += \
 CPP_DEPS += \
 ./src/Game.d \
 ./src/GameObject.d \
+./src/Ghost.d \
 ./src/Movable.d \
 ./src/Pacman.d \
 ./src/UI.d \
