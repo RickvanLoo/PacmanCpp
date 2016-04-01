@@ -23,7 +23,6 @@ GameObject::GameObject(int x, int y, Type type, Direction dir) {
 
 	//Set Flags as if empty space
 	setLethal(false);
-	setKillable(false);
 	setPassable(true);
 	setEdible(false);
 	setScore(0);
@@ -47,10 +46,6 @@ void GameObject::setLethal(bool input){
 	this->Lethal = input;
 }
 
-void GameObject::setKillable(bool input){
-	this->Killable = input;
-}
-
 void GameObject::setPassable(bool input){
 	this->Passable = input;
 }
@@ -61,10 +56,6 @@ void GameObject::setEdible(bool input){
 
 bool GameObject::getLethal(){
 	return this->Lethal;
-}
-
-bool GameObject::getKillable(){
-	return this->Killable;
 }
 
 bool GameObject::getPassable(){

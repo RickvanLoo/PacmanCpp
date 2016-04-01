@@ -13,7 +13,6 @@ Ghost::Ghost(int x, int y, Type type, Direction dir) : Movable(x,y,type,dir) {
 	// TODO Auto-generated constructor stub
 	this->setPassable(true);
 	this->setLethal(true);
-	this->setKillable(false);
 	this->setEdible(false);
 	this->setScore(1000);
 	this->DefaultX = x;

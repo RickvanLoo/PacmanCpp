@@ -159,7 +159,6 @@ void Game::CreateObjects(){
 					GameObject* Object = new GameObject(j,i,WALL,UP);
 					Object->setPassable(false);
 					Object->setLethal(false);
-					Object->setKillable(false);
 					Object->setEdible(false);
 
 					this->GameObjects.insert(std::make_pair(Loc, Object));
@@ -173,7 +172,6 @@ void Game::CreateObjects(){
 					GameObject* Object = new GameObject(j,i,DOT,UP);
 					Object->setPassable(true);
 					Object->setLethal(false);
-					Object->setKillable(false);
 					Object->setEdible(true);
 					Object->setScore(5);
 
@@ -187,7 +185,6 @@ void Game::CreateObjects(){
 					GameObject* Object = new GameObject(j,i,ENERGIZER,UP);
 					Object->setPassable(true);
 					Object->setLethal(false);
-					Object->setKillable(false);
 					Object->setEdible(true);
 					Object->setScore(0);
 

@@ -22,8 +22,6 @@ public:
 
 	void setLethal(bool);
 	bool getLethal();
-	void setKillable(bool);
-	bool getKillable();
 	void setPassable(bool);
 	bool getPassable();
 	void setEdible(bool);
@@ -44,7 +42,6 @@ public:
 private:
 	GameObjectStruct Info;
 	bool Lethal;
-	bool Killable;
 	bool Passable;
 	bool Edible;
 	int Score;

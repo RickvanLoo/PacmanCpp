@@ -23,7 +23,6 @@ public:
 private:
 	void DetectMovingCollision();
 	void DetectStaticCollision(std::map<std::tuple<int,int>, GameObject*>);
-	void ResolveCollision(GameObject*);
 	int TickCount;
 
 };

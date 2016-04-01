@@ -12,7 +12,6 @@
 Pacman::Pacman() : Movable(6,5,PACMAN,RIGHT) {
 	// TODO Auto-generated constructor stub
 	this->setLethal(false);
-	this->setKillable(true);
 	this->TickCount = 0;
 	this->setMoving(false);
 }
@@ -129,31 +128,6 @@ void Pacman::DetectMovingCollision(){
 	}
 }
 
-void Pacman::ResolveCollision(GameObject *Obj){
-
-	//EDIBLE
-	if (Obj->getEdible()){
-		this->getPtr()->IncScore(Obj->getScore());
-		this->getPtr()->RemoveObject(Obj);
-		//ENERGIZER
-		if(Obj->getStruct().type == ENERGIZER){
-			this->getPtr()->ScareGhosts();
-		}
-
-		//ENEMY
-		if(Obj->getStruct().type == SCARED){
-			Obj->Reset();
-		}
-	}
-
-
-
-	//ENEMY
-	if (Obj->getLethal()){
-		this->Reset();
-	}
-
-}
 
 void Pacman::SDLEventHandler(SDL_Event e, std::map<std::tuple<int,int>, GameObject*> ObjectMap){
 	GameObjectStruct Self = this->getStruct();
