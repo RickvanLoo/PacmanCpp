@@ -19,8 +19,8 @@ Pacman::Pacman() : Movable(6,5,PACMAN,RIGHT) {
 
 void Pacman::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
 	//Check for Collisions
-	this->DetectWallCollision(GameObjects);
-	this->DetectCollision(GameObjects);
+	this->DetectStaticCollision(GameObjects);
+	this->DetectMovingCollision();
 
 	//Not Moving
 	if(this->getMoving() == false){
@@ -62,7 +62,7 @@ void Pacman::Reset(){
 }
 
 
-void Pacman::DetectWallCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+void Pacman::DetectStaticCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
 	GameObjectStruct Self = this->getStruct();
 
 	std::tuple<int,int> CheckLocation;
@@ -84,25 +84,48 @@ void Pacman::DetectWallCollision(std::map<std::tuple<int,int>, GameObject*> Obje
 	}
 
 	if(ObjectMap.count(CheckLocation) > 0){
+		GameObject* Obj = ObjectMap[CheckLocation];
 		//Collision Detected For Wall
-		if (ObjectMap[CheckLocation]->getPassable() == false){
+		if (Obj->getPassable() == false){
 			this->setMoving(false);
+		}
+	}
+
+	//Check Current Pacman Location
+	CheckLocation = std::make_tuple(Self.x, Self.y);
+
+	if(ObjectMap.count(CheckLocation) > 0){
+		GameObject* Obj = ObjectMap[CheckLocation];
+		//Collision Detected For Edible
+		if (Obj->getEdible()){
+			this->getPtr()->IncScore(Obj->getScore());
+			this->getPtr()->RemoveObject(Obj);
+			//ENERGIZER
+			if(Obj->getStruct().type == ENERGIZER){
+				this->getPtr()->ScareGhosts();
+			}
 		}
 	}
 }
 
-void Pacman::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap){
-
+void Pacman::DetectMovingCollision(){
 	GameObjectStruct Self = this->getStruct();
+	std::vector<Ghost*> Ghosts = this->getPtr()->getGhosts();
 
-	for(auto const Obj : ObjectMap) {
-		int ObjX = Obj.second->getStruct().x;
-		int ObjY = Obj.second->getStruct().y;
-
-		if((Self.x == ObjX) and (Self.y == ObjY) ){
-			this->ResolveCollision(Obj.second);
+	for(Ghost* ghost : Ghosts){
+		GameObjectStruct GhostStt = ghost->getStruct();
+		if ((GhostStt.x == Self.x) and (GhostStt.y == Self.y)){
+			//ENEMY SCARED
+			if(ghost->getStruct().type == SCARED){
+				this->getPtr()->IncScore(ghost->getScore());
+				this->getPtr()->RemoveObject(ghost);
+				ghost->Reset();
+			}
+			//ENEMY LETHAL
+			if (ghost->getLethal()){
+				this->Reset();
+			}
 		}
-
 	}
 }
 
@@ -134,8 +157,6 @@ void Pacman::ResolveCollision(GameObject *Obj){
 
 void Pacman::SDLEventHandler(SDL_Event e, std::map<std::tuple<int,int>, GameObject*> ObjectMap){
 	GameObjectStruct Self = this->getStruct();
-
-		std::cout << Self.x << ":" <<  Self.y << std::endl;
 
 		std::tuple<int,int> CheckLocation;
 
@@ -176,8 +197,6 @@ void Pacman::SDLEventHandler(SDL_Event e, std::map<std::tuple<int,int>, GameObje
 					default:
 						break;
 					}
-
-
 			}
 		}else{
 			switch(e.key.keysym.sym){
@@ -197,11 +216,7 @@ void Pacman::SDLEventHandler(SDL_Event e, std::map<std::tuple<int,int>, GameObje
 				break;
 			}
 
-
 		}
-
-
-
 }
 
 

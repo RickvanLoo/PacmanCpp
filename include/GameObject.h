@@ -35,7 +35,7 @@ public:
 	void setLocation(int, int);
 
 	void setType(Type);
-	void setDirection(Direction);
+	void setSpriteDirection(Direction);
 
 	void setPtr(Game*);
 	Game* getPtr();

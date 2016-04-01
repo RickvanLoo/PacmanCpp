@@ -79,7 +79,7 @@ void GameObject::setType(Type type){
 	this->Info.type = type;
 }
 
-void GameObject::setDirection(Direction dir){
+void GameObject::setSpriteDirection(Direction dir){
 	this->Info.dir = dir;
 }
 

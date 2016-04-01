@@ -30,25 +30,25 @@ void Movable::Move(int x, int y){
 }
 
 void Movable::GoUp(){
-	this->setDirection(UP);
+	this->setSpriteDirection(UP);
 	this->CurrentDir = UP;
 	this->Moving = true;
 }
 
 void Movable::GoDown(){
-	this->setDirection(DOWN);
+	this->setSpriteDirection(DOWN);
 	this->CurrentDir = DOWN;
 	this->Moving = true;
 }
 
 void Movable::GoLeft(){
-	this->setDirection(LEFT);
+	this->setSpriteDirection(LEFT);
 	this->CurrentDir = LEFT;
 	this->Moving = true;
 }
 
 void Movable::GoRight(){
-	this->setDirection(RIGHT);
+	this->setSpriteDirection(RIGHT);
 	this->CurrentDir = RIGHT;
 	this->Moving = true;
 }

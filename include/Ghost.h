@@ -15,7 +15,6 @@ class Ghost: public Movable {
 public:
 	Ghost(int,int,Type,Direction);
 	void Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects);
-	void Reset();
 	void Scare();
 	void deScare();
 private:

@@ -117,9 +117,6 @@ void Ghost::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap
 	}
 }
 
-void Ghost::Reset(){
-	this->setLocation(DefaultX,DefaultY);
-}
 
 void Ghost::Scare(){
 	this->setLethal(false);

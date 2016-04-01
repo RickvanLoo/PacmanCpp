@@ -21,8 +21,8 @@ public:
 	void Tick(std::map<std::tuple<int,int>, GameObject*>);
 	void SDLEventHandler(SDL_Event, std::map<std::tuple<int,int>, GameObject*>);
 private:
-	void DetectCollision(std::map<std::tuple<int,int>, GameObject*>);
-	void DetectWallCollision(std::map<std::tuple<int,int>, GameObject*>);
+	void DetectMovingCollision();
+	void DetectStaticCollision(std::map<std::tuple<int,int>, GameObject*>);
 	void ResolveCollision(GameObject*);
 	int TickCount;
 
