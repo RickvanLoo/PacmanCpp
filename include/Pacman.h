@@ -11,12 +11,15 @@
 #include "Movable.h"
 #include <map>
 #include <tuple>
+#include <SDL2/SDL.h>
+
 
 class Pacman: public Movable {
 public:
 	Pacman();
 	void Reset();
 	void Tick(std::map<std::tuple<int,int>, GameObject*>);
+	void SDLEventHandler(SDL_Event, std::map<std::tuple<int,int>, GameObject*>);
 private:
 	void DetectCollision(std::map<std::tuple<int,int>, GameObject*>);
 	void DetectWallCollision(std::map<std::tuple<int,int>, GameObject*>);

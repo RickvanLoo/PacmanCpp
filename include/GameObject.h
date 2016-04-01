@@ -39,6 +39,7 @@ public:
 
 	void setPtr(Game*);
 	Game* getPtr();
+	void Reset();
 
 private:
 	GameObjectStruct Info;
@@ -47,6 +48,7 @@ private:
 	bool Passable;
 	bool Edible;
 	int Score;
+	GameObjectStruct DefaultStruct;
 
 	Game* GamePtr;
 

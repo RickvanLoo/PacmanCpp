@@ -19,6 +19,7 @@ GameObject::GameObject(int x, int y, Type type, Direction dir) {
 	structure.dir = dir;
 
 	setStruct(structure);
+	this->DefaultStruct = structure;
 
 	//Set Flags as if empty space
 	setLethal(false);
@@ -96,6 +97,10 @@ void GameObject::setPtr(Game *ptr){
 
 Game* GameObject::getPtr(){
 	return this->GamePtr;
+}
+
+void GameObject::Reset(){
+	this->setStruct(this->DefaultStruct);
 }
 
 

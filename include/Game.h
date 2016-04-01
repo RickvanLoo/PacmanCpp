@@ -23,6 +23,7 @@ public:
 	void Reset();
 	void Start();
 	void Tick();
+	void ScareGhosts();
 	void RemoveObject(GameObject*);
 	void IncScore(int);
 	void DecLives(int);
@@ -33,9 +34,14 @@ private:
 	std::map<std::tuple<int,int>, GameObject*> GameObjects;
 	Pacman PlayerObject;
 	std::vector<Ghost*> Ghosts;
-	SDL_Event e;
-	void SDLEventHandler(SDL_Event);
 	void CreateObjects();
+	SDL_Event e;
+
+	//Timer Attributes
+	bool EnableTimer;
+	int TimerCount;
+	void CallTimer();
+
 };
 
 #endif /* SRC_GAME_H_ */

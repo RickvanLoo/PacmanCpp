@@ -108,11 +108,22 @@ void Pacman::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMa
 
 void Pacman::ResolveCollision(GameObject *Obj){
 
-	//DOT
+	//EDIBLE
 	if (Obj->getEdible()){
 		this->getPtr()->IncScore(Obj->getScore());
 		this->getPtr()->RemoveObject(Obj);
+		//ENERGIZER
+		if(Obj->getStruct().type == ENERGIZER){
+			this->getPtr()->ScareGhosts();
+		}
+
+		//ENEMY
+		if(Obj->getStruct().type == SCARED){
+			Obj->Reset();
+		}
 	}
+
+
 
 	//ENEMY
 	if (Obj->getLethal()){
@@ -120,6 +131,79 @@ void Pacman::ResolveCollision(GameObject *Obj){
 	}
 
 }
+
+void Pacman::SDLEventHandler(SDL_Event e, std::map<std::tuple<int,int>, GameObject*> ObjectMap){
+	GameObjectStruct Self = this->getStruct();
+
+		std::cout << Self.x << ":" <<  Self.y << std::endl;
+
+		std::tuple<int,int> CheckLocation;
+
+		//Check Location relative to Current Direction
+		switch(e.key.keysym.sym){
+		case SDLK_UP:
+			CheckLocation = std::make_tuple(Self.x, Self.y - 1);
+			break;
+		case SDLK_DOWN:
+			CheckLocation = std::make_tuple(Self.x, Self.y + 1);
+			break;
+		case SDLK_LEFT:
+			CheckLocation = std::make_tuple(Self.x - 1, Self.y);
+			break;
+		case SDLK_RIGHT:
+			CheckLocation = std::make_tuple(Self.x + 1, Self.y);
+			break;
+		default:
+			CheckLocation = std::make_tuple(Self.x, Self.y);
+			break;
+		}
+
+		if(ObjectMap.count(CheckLocation) > 0){
+			if (ObjectMap[CheckLocation]->getPassable() == true){
+				switch(e.key.keysym.sym){
+					case SDLK_UP:
+						this->GoUp();
+						break;
+					case SDLK_DOWN:
+						this->GoDown();
+						break;
+					case SDLK_LEFT:
+						this->GoLeft();
+						break;
+					case SDLK_RIGHT:
+						this->GoRight();
+						break;
+					default:
+						break;
+					}
+
+
+			}
+		}else{
+			switch(e.key.keysym.sym){
+			case SDLK_UP:
+				this->GoUp();
+				break;
+			case SDLK_DOWN:
+				this->GoDown();
+				break;
+			case SDLK_LEFT:
+				this->GoLeft();
+				break;
+			case SDLK_RIGHT:
+				this->GoRight();
+				break;
+			default:
+				break;
+			}
+
+
+		}
+
+
+
+}
+
 
 
 

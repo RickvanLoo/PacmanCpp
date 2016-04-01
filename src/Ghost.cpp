@@ -15,9 +15,10 @@ Ghost::Ghost(int x, int y, Type type, Direction dir) : Movable(x,y,type,dir) {
 	this->setLethal(true);
 	this->setKillable(false);
 	this->setEdible(false);
-	this->setScore(100);
+	this->setScore(1000);
 	this->DefaultX = x;
 	this->DefaultY = y;
+	this->DefaultType = type;
 }
 
 void Ghost::Tick(std::map<std::tuple<int,int>, GameObject*> GameObjects){
@@ -118,6 +119,24 @@ void Ghost::DetectCollision(std::map<std::tuple<int,int>, GameObject*> ObjectMap
 
 void Ghost::Reset(){
 	this->setLocation(DefaultX,DefaultY);
+}
+
+void Ghost::Scare(){
+	this->setLethal(false);
+	this->setEdible(true);
+
+	GameObjectStruct Str = this->getStruct();
+	Str.type = SCARED;
+	this->setStruct(Str);
+}
+
+void Ghost::deScare(){
+	this->setLethal(true);
+	this->setEdible(false);
+
+	GameObjectStruct Str = this->getStruct();
+	Str.type = this->DefaultType;
+	this->setStruct(Str);
 }
 
 

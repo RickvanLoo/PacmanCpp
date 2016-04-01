@@ -19,11 +19,11 @@ void Movable::Move(int x, int y){
 	GameObjectStruct Info = this->getStruct();
 
 	//Portal
-	if (Info.x + x < 0){
+	if (Info.x + x == -1){
 		x = x + 28;
 	}
-	if (Info.x + x > 28){
-		x = x - 29;
+	if (Info.x + x == 28){
+		x = x - 28;
 	}
 
 	this->setLocation(Info.x + x, Info.y + y);

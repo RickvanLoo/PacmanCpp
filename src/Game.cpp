@@ -63,7 +63,8 @@ void Game::Start(){
 				}
 
 
-				SDLEventHandler(e);
+				//SDLEventHandler(e);
+				this->PlayerObject.SDLEventHandler(e,this->GameObjects);
 			}
 
 			while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
@@ -77,7 +78,7 @@ void Game::UpdateScreen(){
 
 	// Favor Ghosts for rendering.
 	for(auto const ent1 : this->GameObjects) {
-		if(ent1.second->getLethal()){
+		if((ent1.second->getLethal()) or ent1.second->getStruct().type == SCARED){
 			this->ObjectStructList.push_back(ent1.second->getStruct());
 
 		}else{
@@ -92,29 +93,14 @@ void Game::UpdateScreen(){
 	this->update(this->ObjectStructList);
 }
 
-void Game::SDLEventHandler(SDL_Event e){
-
-	switch(e.key.keysym.sym){
-	case SDLK_UP:
-		this->PlayerObject.GoUp();
-		break;
-	case SDLK_DOWN:
-		this->PlayerObject.GoDown();
-		break;
-	case SDLK_LEFT:
-		this->PlayerObject.GoLeft();
-		break;
-	case SDLK_RIGHT:
-		this->PlayerObject.GoRight();
-		break;
-	}
-}
 
 void Game::Tick(){
 	//Check For GameOver
 	if(this->getLives() == 0){
 		this->Reset();
 	}
+
+	this->CallTimer();
 
 	this->PlayerObject.Tick(this->GameObjects);
 	for (Ghost* Ghost : this->Ghosts){
@@ -195,6 +181,20 @@ void Game::CreateObjects(){
 
 				}
 
+				//ENERGIZERS
+				if(map[i][j]==8){
+					std::tuple<int,int> Loc = std::make_tuple(j,i);
+					GameObject* Object = new GameObject(j,i,ENERGIZER,UP);
+					Object->setPassable(true);
+					Object->setLethal(false);
+					Object->setKillable(false);
+					Object->setEdible(true);
+					Object->setScore(0);
+
+					this->GameObjects.insert(std::make_pair(Loc, Object));
+
+				}
+
 
 			}
 		}
@@ -230,6 +230,30 @@ void Game::DecLives(int input){
 
 std::vector<Ghost*> Game::getGhosts(){
 	return this->Ghosts;
+}
+
+void Game::CallTimer(){
+	if(this->EnableTimer){
+		if(this->TimerCount > 140){
+			//Descare Ghosts
+			for(Ghost* ghost: this->Ghosts){
+				ghost->deScare();
+			}
+
+
+		}
+		this->TimerCount++;
+	}
+}
+
+void Game::ScareGhosts(){
+	this->EnableTimer = true;
+	this->TimerCount = 0;
+	//ScareAllGhosts
+	for(Ghost* ghost: this->Ghosts){
+		ghost->Scare();
+	}
+
 }
 
 
